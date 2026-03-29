@@ -31,7 +31,16 @@ class EventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($event->getSeats() !== null && $event->getSeats() <= 0) {
+                $this->addFlash('warning', 'Plus de places disponibles pour cet événement.');
+
+                return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
+            }
+
             $reservation->setEvent($event);
+            if ($event->getSeats() !== null) {
+                $event->setSeats(max(0, $event->getSeats() - 1));
+            }
             $entityManager->persist($reservation);
             $entityManager->flush();
 
