@@ -9,15 +9,29 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="{{ path('app_events') }}">EventApp</a>
-            <div class="navbar-nav ms-auto">
-                {% if app.user %}
+            <a class="navbar-brand" href="{{ is_granted('ROLE_ADMIN') ? path('admin_dashboard') : path('app_events') }}">EventApp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <div class="navbar-nav me-auto">
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a class="nav-link text-white" href="{{ path('admin_logout') }}">Logout</a>
-                    {% else %}
-                        <a class="nav-link text-white" href="{{ path('app_logout') }}">Logout</a>
+                        <a class="nav-link" href="{{ path('admin_dashboard') }}">Dashboard</a>
+                        <a class="nav-link" href="{{ path('admin_events') }}">Admin Events</a>
+                        <a class="nav-link" href="{{ path('admin_reservations') }}">Reservations</a>
+                    {% elseif app.user %}
+                        <a class="nav-link" href="{{ path('app_events') }}">Events</a>
                     {% endif %}
-                {% endif %}
+                </div>
+                <div class="navbar-nav ms-auto">
+                    {% if app.user %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="nav-link text-white" href="{{ path('admin_logout') }}">Logout</a>
+                        {% else %}
+                            <a class="nav-link text-white" href="{{ path('app_logout') }}">Logout</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
             </div>
         </div>
     </nav>
