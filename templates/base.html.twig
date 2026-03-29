@@ -12,7 +12,11 @@
             <a class="navbar-brand" href="{{ path('app_events') }}">EventApp</a>
             <div class="navbar-nav ms-auto">
                 {% if app.user %}
-                    <a class="nav-link text-white" href="{{ path('app_logout') }}">Logout</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a class="nav-link text-white" href="{{ path('admin_logout') }}">Logout</a>
+                    {% else %}
+                        <a class="nav-link text-white" href="{{ path('app_logout') }}">Logout</a>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

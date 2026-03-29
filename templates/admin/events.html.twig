@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Events{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4">Manage Events</h1>
+
+    {% if events is empty %}
+        <div class="alert alert-info">No events available.</div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Seats</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.title }}</td>
+                            <td>{{ event.date|date('Y-m-d H:i') }}</td>
+                            <td>{{ event.location }}</td>
+                            <td>{{ event.seats }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

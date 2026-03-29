@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Reservations{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1 class="mb-4">Reservations</h1>
+
+    {% if reservations is empty %}
+        <div class="alert alert-info">No reservations yet.</div>
+    {% else %}
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>User</th>
+                        <th>Seats</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in reservations %}
+                        <tr>
+                            <td>{{ reservation.event.title }}</td>
+                            <td>{{ reservation.user.username }}</td>
+                            <td>{{ reservation.seats }}</td>
+                            <td>{{ reservation.createdAt is defined ? reservation.createdAt|date('Y-m-d H:i') : '' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
