@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event Details{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="mb-0">{{ event.title }}</h1>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" href="{{ path('admin_events') }}">Back</a>
+            <a class="btn btn-primary" href="{{ path('admin_events_edit', {id: event.id}) }}">Edit</a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        {% if event.image %}
+            <img src="{{ event.image }}" alt="{{ event.title }}" class="card-img-top" style="max-height:320px;object-fit:cover;">
+        {% endif %}
+        <div class="card-body">
+            <p class="text-muted mb-1">{{ event.date|date('F j, Y g:i A') }} · {{ event.location }}</p>
+            <p class="mb-2"><strong>Seats:</strong> {{ event.seats }}</p>
+            <p class="mb-0">{{ event.description }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

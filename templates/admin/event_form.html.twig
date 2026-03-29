@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ is_edit ? 'Edit Event' : 'New Event' }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1 class="mb-1">{{ is_edit ? 'Edit Event' : 'New Event' }}</h1>
+            <p class="text-muted mb-0">Fill in details to publish an event. Images accept absolute URLs or paths under /public.</p>
+        </div>
+        <a href="{{ path('admin_events') }}" class="btn btn-outline-secondary">Back</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            {{ form_start(form) }}
+            <div class="row g-3">
+                <div class="col-md-6">
+                    {{ form_row(form.title, {'attr': {'placeholder': 'Tech Meetup'}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.date) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.location, {'attr': {'placeholder': 'Paris, FR'}}) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.seats, {'attr': {'min': 1}}) }}
+                </div>
+                <div class="col-12">
+                    {{ form_row(form.description, {'attr': {'rows': 4, 'placeholder': 'Agenda, speakers, and useful info'}}) }}
+                </div>
+                <div class="col-12">
+                    {{ form_row(form.image, {'attr': {'placeholder': 'https://... or /uploads/image.jpg'}}) }}
+                </div>
+            </div>
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">{{ is_edit ? 'Update event' : 'Create event' }}</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
