@@ -18,7 +18,10 @@
                         <strong>{{ event.title }}</strong>
                         <span class="text-muted">— {{ event.date|date('Y-m-d H:i') }} — {{ event.location }}</span>
                     </div>
-                    <span class="badge bg-primary">{{ items|length }} réservation{% if items|length > 1 %}s{% endif %}</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <a class="btn btn-sm btn-outline-primary" href="{{ path('admin_events_show', {id: event.id}) }}">Voir l'événement</a>
+                        <span class="badge bg-primary">{{ items|length }} réservation{% if items|length > 1 %}s{% endif %}</span>
+                    </div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive mb-0">
