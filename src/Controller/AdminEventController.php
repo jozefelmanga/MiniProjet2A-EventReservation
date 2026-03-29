@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use DateTimeImmutable;
 
 #[Route('/admin/events')]
 class AdminEventController extends AbstractController
@@ -33,6 +34,15 @@ class AdminEventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($event->getDate() < new DateTimeImmutable()) {
+                $this->addFlash('warning', 'La date de l\'événement ne peut pas être dans le passé.');
+
+                return $this->render('admin/event_form.html.twig', [
+                    'form' => $form->createView(),
+                    'is_edit' => false,
+                ]);
+            }
+
             $entityManager->persist($event);
             $entityManager->flush();
 
@@ -62,6 +72,15 @@ class AdminEventController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($event->getDate() < new DateTimeImmutable()) {
+                $this->addFlash('warning', 'La date de l\'événement ne peut pas être dans le passé.');
+
+                return $this->render('admin/event_form.html.twig', [
+                    'form' => $form->createView(),
+                    'is_edit' => true,
+                ]);
+            }
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Event updated.');

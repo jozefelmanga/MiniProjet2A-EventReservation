@@ -41,7 +41,12 @@
                                 {% endif %}
                             </td>
                             <td>{{ event.title }}</td>
-                            <td>{{ event.date|date('Y-m-d H:i') }}</td>
+                            <td>
+                                {{ event.date|date('Y-m-d H:i') }}
+                                {% if event.date < date() %}
+                                    <span class="badge bg-secondary ms-1">Passé</span>
+                                {% endif %}
+                            </td>
                             <td>{{ event.location }}</td>
                             <td>{{ event.seats }}</td>
                             <td class="text-end">

@@ -30,7 +30,14 @@ class EventController extends AbstractController
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
+        $isPast = $event->getDate() < new \DateTimeImmutable();
+
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($isPast) {
+                $this->addFlash('warning', 'Cet événement est déjà passé. Réservation impossible.');
+
+                return $this->redirectToRoute('app_event_show', ['id' => $event->getId()]);
+            }
             if ($event->getSeats() !== null && $event->getSeats() <= 0) {
                 $this->addFlash('warning', 'Plus de places disponibles pour cet événement.');
 
@@ -51,6 +58,7 @@ class EventController extends AbstractController
 
         return $this->render('events/show.html.twig', [
             'event' => $event,
+            'is_past' => $isPast,
             'form' => $form->createView(),
         ]);
     }

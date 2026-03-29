@@ -19,6 +19,10 @@ class EventType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('date', DateTimeType::class, [
                 'widget' => 'single_text',
+                'attr' => [
+                    // Prevent picking past dates on the UI
+                    'min' => (new \DateTimeImmutable())->format('Y-m-d\TH:i'),
+                ],
             ])
             ->add('location', TextType::class)
             ->add('seats', IntegerType::class)
