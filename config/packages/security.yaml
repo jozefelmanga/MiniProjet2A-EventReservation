@@ -1,0 +1,51 @@
+security:
+    password_hashers:
+        App\Entity\User:
+            algorithm: auto
+        App\Entity\Admin:
+            algorithm: auto
+
+    providers:
+        user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+        admin_provider:
+            entity:
+                class: App\Entity\Admin
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin:
+            pattern: ^/admin
+            lazy: true
+            provider: admin_provider
+            form_login:
+                login_path: admin_login
+                check_path: admin_login
+                default_target_path: admin_dashboard
+            logout:
+                path: admin_logout
+                target: admin_login
+
+        main:
+            lazy: true
+            provider: user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                default_target_path: app_events
+            logout:
+                path: app_logout
+                target: app_login
+
+    access_control:
+        - { path: ^/admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
