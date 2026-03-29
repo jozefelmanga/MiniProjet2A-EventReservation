@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ event.title }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row g-4">
+        <div class="col-lg-7">
+            <div class="card shadow-sm mb-3">
+                {% if event.image %}
+                    <img src="{{ event.image }}" alt="{{ event.title }}" class="card-img-top" style="max-height:360px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h1 class="h4">{{ event.title }}</h1>
+                    <p class="text-muted mb-2">{{ event.date|date('F j, Y g:i A') }} · {{ event.location }}</p>
+                    <p class="mb-0">{{ event.description }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Réserver une place</h2>
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endfor %}
+                    {{ form_start(form) }}
+                        {{ form_row(form.name, {'attr': {'placeholder': 'Votre nom'}}) }}
+                        {{ form_row(form.email, {'attr': {'placeholder': 'vous@example.com'}}) }}
+                        {{ form_row(form.phone, {'attr': {'placeholder': '+33 6 12 34 56 78'}}) }}
+                        <button class="btn btn-primary w-100" type="submit">Confirmer la réservation</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
