@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Repository\ReservationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -71,6 +72,17 @@ class AdminEventController extends AbstractController
         return $this->render('admin/event_form.html.twig', [
             'form' => $form->createView(),
             'is_edit' => true,
+        ]);
+    }
+
+    #[Route('/{id}/reservations', name: 'admin_events_reservations', methods: ['GET'], requirements: ['id' => '\\d+'])]
+    public function reservations(Event $event, ReservationRepository $reservationRepository): Response
+    {
+        $reservations = $reservationRepository->findBy(['event' => $event], ['createdAt' => 'DESC']);
+
+        return $this->render('admin/event_reservations.html.twig', [
+            'event' => $event,
+            'reservations' => $reservations,
         ]);
     }
 

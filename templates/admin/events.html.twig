@@ -47,6 +47,7 @@
                             <td class="text-end">
                                 <a href="{{ path('admin_events_show', {id: event.id}) }}" class="btn btn-sm btn-outline-secondary">View</a>
                                 <a href="{{ path('admin_events_edit', {id: event.id}) }}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{{ path('admin_events_reservations', {id: event.id}) }}" class="btn btn-sm btn-warning">Reservations</a>
                                 <form method="post" action="{{ path('admin_events_delete', {id: event.id}) }}" class="d-inline" onsubmit="return confirm('Delete this event?');">
                                     <input type="hidden" name="_token" value="{{ csrf_token('delete_event_' ~ event.id) }}">
                                     <button class="btn btn-sm btn-danger" type="submit">Delete</button>
